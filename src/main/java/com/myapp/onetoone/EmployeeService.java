@@ -6,4 +6,5 @@ public interface EmployeeService {
   void save(Employee emp);
   List<Employee> findAll();
   List<Employee> findByEmployeeName(String employeeName);
+  Employee getOneEmployee(Long id);
 }

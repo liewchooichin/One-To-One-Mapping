@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -122,6 +123,34 @@ public class EmployeeController {
         model.put("message", "Data is not found.");
         return new ResponseEntity<>(model, HttpStatus.NOT_FOUND);
       }
+  }
+  // find one employee by id
+  @GetMapping("/employees/{id}")
+  public ResponseEntity<?> getOneEmployee(@PathVariable Long id){
+    Map<String, Object> model = new LinkedHashMap<>();
+    Employee emp = employeeService.getOneEmployee(id);
+    if(emp!=null){
+      EmployeeModel empModel = new EmployeeModel();
+      empModel.setEmployeeModelId(emp.getEmployeeId());
+      empModel.setEmployeeModelName(emp.getEmployeeName());
+      empModel.setEmployeeModelEmailId(emp.getEmployeeEmailId());
+      empModel.setEmployeeModelMobile(emp.getEmployeeMobile());
+      empModel.setEmployeeModelDesign(emp.getEmployeeDesign());
+      empModel.setEmployeeModelStreet(emp.getMappedByAddress().getStreet());
+      empModel.setEmployeeModelCity(emp.getMappedByAddress().getCity());
+      empModel.setEmployeeModelState(emp.getMappedByAddress().getState());
+      // set the response to this found employee
+      model.put("status", 1);
+      model.put("data", empModel);
+      return new ResponseEntity<>(model, HttpStatus.OK);
+    }
+    // else no result
+    else{
+      model.clear();
+      model.put("status", 0);
+      model.put("message", "No results found.");
+      return new ResponseEntity<>(model, HttpStatus.NO_CONTENT);
+    }
   }
   // find employee name containing xxx
   @GetMapping("/search")

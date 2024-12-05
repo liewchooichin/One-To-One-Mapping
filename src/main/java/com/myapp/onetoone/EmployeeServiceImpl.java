@@ -1,6 +1,8 @@
 package com.myapp.onetoone;
 
+import java.beans.Customizer;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,18 @@ public class EmployeeServiceImpl implements EmployeeService{
   @Override
   public List<Employee> findAll(){
     return employeeRepository.findAll();
+  };
+  // list one employee
+  @Override
+  public Employee getOneEmployee(Long id){
+    Optional<Employee> optionalEmployee = employeeRepository.findById(id);
+    if(optionalEmployee.isPresent()){
+      Employee foundEmployee = optionalEmployee.get();
+      return foundEmployee;
+    }
+    else {
+      return null;
+    }
   };
   // find by employee name
   @Override
