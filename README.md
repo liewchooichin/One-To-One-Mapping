@@ -2,7 +2,10 @@
 
 I am using the tutorial to learn more about OneToOne mapping:
 
-https://springjava.com/spring-data-jpa/one-to-one-bidirectional-mapping-in-spring-boot-jpa/
+[One-To-One Mapping](https://springjava.com/spring-data-jpa/one-to-one-bidirectional-mapping-in-spring-boot-jpa/)
+
+[Spring Data JPA Find By Contains](https://springjava.com/spring-data-jpa/find-by-contains/)
+
 
 # Sample Output
 
