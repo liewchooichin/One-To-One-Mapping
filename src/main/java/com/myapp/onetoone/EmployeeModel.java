@@ -17,11 +17,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-//@Entity
-//@Table(name = "employee_model")
 public class EmployeeModel {
-  //@Id
-  //@GenerateValue(strategy = GenerationType.IDENTITY);
   private Long employeeModelId;
   private String employeeModelName;
   private String employeeModelEmailId;
