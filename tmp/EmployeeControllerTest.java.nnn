@@ -1,0 +1,77 @@
+package com.myapp.onetoone;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+
+
+@WebMvcTest(EmployeeController.class)
+//@ExtendWith(MockitoExtension.class)
+// @SpringBootTest
+// @AutoConfigureMockMvc 
+public class EmployeeControllerTest {
+  // Autowired fields
+  @Autowired
+  private MockMvc mockie;
+
+  // @MockBean: Creates a mock object for the EmployeeService to control its behavior during tests.
+  // @Mock
+  // private EmployeeRepository employeeRepository;
+  // @InjectMocks
+  // private EmployeeService employeeService;
+
+  // setup a sample
+  private Employee employee1;
+  private Address address1;
+  private Long employeeId1;
+  @BeforeEach
+  public void init(){
+    address1.setStreet("Street 1");
+    address1.setCity("City 1");
+    address1.setState("State 1");
+    employeeId1 = 1L;
+    employee1.setEmployeeId(employeeId1);
+    employee1.setEmployeeName("Name 1");
+    employee1.setEmployeeEmailId("employee1@example.com");
+    employee1.setEmployeeMobile("10001000");
+    employee1.setEmployeeDesign("Design 1");
+    employee1.setMappedByAddress(address1);
+    address1.setOwnedByEmployee(employee1);
+  }
+
+  @DisplayName("Get employee by id")
+  @Test
+  public void testGetOneEmployee_Success() throws Exception {
+    // Make a test sample
+    //when(employeeService.getOneEmployee(employeeId1))
+    // 1. get the request uri
+    RequestBuilder request = MockMvcRequestBuilders.get("/api/employees/1");
+    // 2. perform the request and get response
+    mockie
+      .perform(request)
+      .andDo(print())
+      .andExpect(status().isOk())
+      .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+      .andExpect(jsonPath("$.status").value(1))
+      .andExpect(jsonPath("$.data.employeeModelId").hasJsonPath())
+      .andExpect(jsonPath("$.data.employeeModelId").value(1));     
+  }
+}
